@@ -1,0 +1,20 @@
+.footerParagraph {
+    color: #FFFEFC;
+    font-size: 0.8em;
+    margin-left: 1em;
+}
+
+.footerParagraph a {
+    text-decoration: none;
+    color: #84bd00;
+}
+
+.fa-github {
+    color: #84bd00;
+    font-size: 2em;
+    margin-right: 0.5em;
+}
+
+.footerParagraph a:hover{
+    text-decoration: underline;
+}

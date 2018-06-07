@@ -1,0 +1,22 @@
+.navbar{
+    background-color: #292929;
+    flex-grow: 1;
+}
+
+.navbarList {
+    list-style: none;
+    padding: 0;
+}
+
+.navbarList li {
+    color: rgb(182, 182, 182);
+    margin: 1em 2em;
+    font-size: 0.9em;
+    transition: 0.5s ease;
+}
+
+
+.navbarList li:hover {
+    color: white;
+    cursor: pointer;
+}
