@@ -22,3 +22,7 @@ body, html {
 .content{
     flex-grow: 11;
 }
+
+::selection {
+    background: #1db954;
+}

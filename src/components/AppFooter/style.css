@@ -6,11 +6,12 @@
 
 .footerParagraph a {
     text-decoration: none;
-    color: #84bd00;
+    color: #1db954
 }
+/* color: #84bd00; */
 
 .fa-github {
-    color: #84bd00;
+    color: #1db954;
     font-size: 2em;
     margin-right: 0.5em;
 }

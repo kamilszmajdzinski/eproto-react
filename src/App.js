@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import AppFooter from './components/AppFooter';
 import AppHeader from './components/AppHeader';
-import AppNavbar from './components/AppNavbar'
+import AppNavbar from './components/AppNavbar';
+import Students from "./components/Students";
 import './style.css'
 
 class App extends Component {
@@ -12,7 +13,7 @@ class App extends Component {
           <div className = 'container'>
             <AppNavbar />
             <div className = 'content'>
-              <p>content</p>
+              <Students />
             </div>
           </div>
         <AppFooter />
