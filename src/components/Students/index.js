@@ -1,13 +1,26 @@
 import React, { Component } from 'react'
 import './style.css'
-
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
+import AddNewStudent from "../AddNewStudent";
 
 export default class Students extends Component {
+
+    state = {
+        addNewStudentComponentEnabled: false
+    }
+
+   handleAddNewStudent = () => {
+       this.setState({
+           addNewStudentComponentEnabled: true
+       })
+   } 
+
   render() {
     return (
       <div className = 'studentsContainer'>
         <p> Students </p>
-
+        
         <table className = 'dataTable'>
             <tr>
                 <th>
@@ -26,6 +39,8 @@ export default class Students extends Component {
                     actions
                 </th>
             </tr>
+
+            {this.state.addNewStudentComponentEnabled && <AddNewStudent />}
 
             <tr className = 'dataRow'>
                 <td>
@@ -87,8 +102,19 @@ export default class Students extends Component {
 
 
         </table>
-
+        
+            <FloatingActionButton style = {style} backgroundColor = '#1db954' onClick = {this.handleAddNewStudent}>
+                <ContentAdd />
+            </FloatingActionButton>
+        
       </div>
     )
   }
+}
+
+
+const style = {
+    position: 'fixed',
+    bottom: '90px',
+    right: '60px'
 }
