@@ -6,6 +6,8 @@ import AddNewStudent from "../AddNewStudent";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux'
 import { fetchStudentsAction } from "../../actions/studentsAction";
+import studentsReducer from '../../reducers/studentsreducer';
+import CircularProgress from 'material-ui/CircularProgress';
 
 class Students extends Component {
 
@@ -17,7 +19,7 @@ class Students extends Component {
       this.props.fetchStudentsAction()
       
     }
-    
+   
 
    handleAddNewStudent = () => {
        this.setState({
@@ -25,92 +27,58 @@ class Students extends Component {
        })
    } 
 
+   renderStudent = (student) => {
+           return(
+            <tr className = 'dataRow'>
+            <td>
+                {student.index}
+            </td>
+            <td>
+                {student.firstname}
+            </td>
+            <td>
+                {student.lastname}
+            </td>
+            <td>
+                {student.birthday}
+            </td>
+            <td className = 'actionCell' >
+                <i class="far fa-chart-bar" title = 'Students grades'></i>
+                <i class="fas fa-trash" title ='Delete student'></i>
+            </td>
+        </tr>
+           )
+   }
+
   render() {
+      const { students, isFetching } = this.props
     return (
       <div className = 'dataContainer'>
         <p> Students </p>
+        {isFetching ? (
+            <CircularProgress size={60} thickness={7} color = '#1db954' style = {spinnerStyle}/>
+        ):(
         <form>
         <table className = 'dataTable'>
             <thead>
                 <tr>
-                    <th>
-                        Index
-                    </th>
-                    <th>
-                        First name
-                    </th>
-                    <th>
-                        Last name
-                    </th>
-                    <th>
-                        Birthday
-                    </th>
-                    <th>
-                        actions
-                    </th>
+                    <th>Index</th>
+                    <th>First name</th>
+                    <th>Last name</th>
+                    <th>Birthday</th>
+                    <th>actions</th>
                 </tr>
             </thead>
             {this.state.addNewStudentComponentEnabled && <AddNewStudent />}
 
-            <tr className = 'dataRow'>
-                <td>
-                    122376
-                </td>
-                <td>
-                    Kamil
-                </td>
-                <td>
-                    Szmadjzinski
-                </td>
-                <td>
-                    11.11.1005
-                </td>
-                <td className = 'actionCell' >
-                    <i class="far fa-chart-bar" title = 'Oceny studenta'></i>
-                    <i class="fas fa-trash" title ='Usuń studenta'></i>
-                </td>
-            </tr>
-
-            <tr className = 'dataRow'>
-                <td>
-                    122376
-                </td>
-                <td>
-                    Kamil
-                </td>
-                <td>
-                    Szmadjzinski
-                </td>
-                <td>
-                    11.11.1005
-                </td>
-                <td className = 'actionCell' >
-                    <i class="far fa-chart-bar" title = 'Oceny studenta'></i>
-                    <i class="fas fa-trash" title = 'Usuń studenta'></i>
-                </td>
-            </tr>
-
-
-            {/* <tr>
-                <td>
-                    122376
-                </td>
-                <td>
-                    Kamil
-                </td>
-                <td>
-                    Szmadjzinski
-                </td>
-                <td>
-                    11.11.1005
-                </td>
-                <td>
-                    <i class="far fa-chart-bar"></i>
-                    <i class="fas fa-trash"></i>
-                </td>
-            </tr> */}
+            {students ? (
+                students.map( student =>  this.renderStudent(student))
+            ):(
+                <p>Brak studentow</p>
+            )}
         </table>
         </form>
+        )}
             <FloatingActionButton 
                 style = {style} 
                 backgroundColor = '#1db954'
@@ -131,10 +99,23 @@ const style = {
     right: '60px'
 }
 
+const spinnerStyle = {
+    position: 'fixed',
+    top: '50%',
+    left: '50%'
+}
+
+const mapStateToProps = ({ studentsReducer }) => {
+    return {
+        students: studentsReducer.students,
+        isFetching: studentsReducer.isFetching
+    }
+}
+
 const mapDispatchToProps = dispatch =>{
     return bindActionCreators ({
         fetchStudentsAction
     }, dispatch)
 }
 
-export default connect(null, mapDispatchToProps)(Students)
+export default connect(mapStateToProps, mapDispatchToProps)(Students)
