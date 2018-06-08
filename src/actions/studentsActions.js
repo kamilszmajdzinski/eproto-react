@@ -1,4 +1,5 @@
 import { fetchStudents } from "../api/index";
+import { showNotification } from '../actions/notificationsActions'
 
 export const FETCH_STUDENTS_PENDING = 'FETCH_STUDENT_PENDING'
 export const FETCH_STUDENTS_SUCCESS = 'FETCH_STUDENT_SUCCESS'
@@ -13,6 +14,9 @@ export function fetchStudentsAction(){
             .then(resJson => {
                 dispatch({ type: FETCH_STUDENTS_SUCCESS, resJson })
             })
-            .catch(err => dispatch({ type: FETCH_STUDENTS_ERROR }))
+            .catch(err => {
+                dispatch({ type: FETCH_STUDENTS_ERROR })
+                showNotification(err.toString())(dispatch)
+            })
     }
 }

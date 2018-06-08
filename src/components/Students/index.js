@@ -5,9 +5,10 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import AddNewStudent from "../AddNewStudent";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux'
-import { fetchStudentsAction } from "../../actions/studentsAction";
+import { fetchStudentsAction } from "../../actions/studentsActions";
 import studentsReducer from '../../reducers/studentsreducer';
 import CircularProgress from 'material-ui/CircularProgress';
+import Notifications from '../Notifications'
 
 class Students extends Component {
 
@@ -17,7 +18,6 @@ class Students extends Component {
 
     componentDidMount = () => {
       this.props.fetchStudentsAction()
-      
     }
    
 
@@ -86,7 +86,7 @@ class Students extends Component {
                  title = "Add new student">
                 <ContentAdd />
             </FloatingActionButton>
-        
+            <Notifications />
       </div>
     )
   }

@@ -1,4 +1,4 @@
-import { FETCH_STUDENTS_PENDING, FETCH_STUDENTS_SUCCESS, FETCH_STUDENTS_ERROR } from "../actions/studentsAction";
+import { FETCH_STUDENTS_PENDING, FETCH_STUDENTS_SUCCESS, FETCH_STUDENTS_ERROR } from "../actions/studentsActions";
 
 const initialState = {
     isFetching: false,
