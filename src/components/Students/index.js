@@ -3,12 +3,21 @@ import './style.css'
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import AddNewStudent from "../AddNewStudent";
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux'
+import { fetchStudentsAction } from "../../actions/studentsAction";
 
-export default class Students extends Component {
+class Students extends Component {
 
     state = {
         addNewStudentComponentEnabled: false
     }
+
+    componentDidMount = () => {
+      this.props.fetchStudentsAction()
+      
+    }
+    
 
    handleAddNewStudent = () => {
        this.setState({
@@ -18,28 +27,29 @@ export default class Students extends Component {
 
   render() {
     return (
-      <div className = 'studentsContainer'>
+      <div className = 'dataContainer'>
         <p> Students </p>
         <form>
         <table className = 'dataTable'>
-            <tr>
-                <th>
-                    Index
-                </th>
-                <th>
-                    First name
-                </th>
-                <th>
-                    Last name
-                </th>
-                <th>
-                    Birthday
-                </th>
-                <th>
-                    actions
-                </th>
-            </tr>
-
+            <thead>
+                <tr>
+                    <th>
+                        Index
+                    </th>
+                    <th>
+                        First name
+                    </th>
+                    <th>
+                        Last name
+                    </th>
+                    <th>
+                        Birthday
+                    </th>
+                    <th>
+                        actions
+                    </th>
+                </tr>
+            </thead>
             {this.state.addNewStudentComponentEnabled && <AddNewStudent />}
 
             <tr className = 'dataRow'>
@@ -120,3 +130,11 @@ const style = {
     bottom: '90px',
     right: '60px'
 }
+
+const mapDispatchToProps = dispatch =>{
+    return bindActionCreators ({
+        fetchStudentsAction
+    }, dispatch)
+}
+
+export default connect(null, mapDispatchToProps)(Students)
