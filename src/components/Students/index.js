@@ -20,7 +20,7 @@ export default class Students extends Component {
     return (
       <div className = 'studentsContainer'>
         <p> Students </p>
-        
+        <form>
         <table className = 'dataTable'>
             <tr>
                 <th>
@@ -99,11 +99,13 @@ export default class Students extends Component {
                     <i class="fas fa-trash"></i>
                 </td>
             </tr> */}
-
-
         </table>
-        
-            <FloatingActionButton style = {style} backgroundColor = '#1db954' onClick = {this.handleAddNewStudent}>
+        </form>
+            <FloatingActionButton 
+                style = {style} 
+                backgroundColor = '#1db954'
+                 onClick = {this.handleAddNewStudent}
+                 title = "Add new student">
                 <ContentAdd />
             </FloatingActionButton>
         

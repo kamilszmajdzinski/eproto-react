@@ -1,0 +1,23 @@
+.dataRow input {
+    background-color: #212121;
+    border: none;
+    color: white;
+    margin: 0;
+    border-bottom: 1px solid #1db954;
+    font-family: 'Montserrat', sans-serif;
+    outline: none;
+    transition: 1s ease;
+    
+}
+
+#addStudentRow:hover{
+    background-color: #212121;
+}
+
+#addStudentRow td {
+    padding: 6px 0;
+}
+
+.dataRow input:focus{
+    border: 1px solid #1db954;
+}

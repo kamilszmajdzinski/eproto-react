@@ -10,7 +10,8 @@ const style = {
     width: '100%',
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-between'
+    justifyContent: 'space-between',
+    boxShadow: '0px 0px 8px 0px rgba(0,0,0,0.75)'
 }
 
 const AppFooter = () => {
