@@ -9,6 +9,7 @@ const mapStateToProps = ({ notifications }) => {
     }
 }
 
+
 const Notifications = ({ show, text }) => {
   return (
     <Snackbar 
