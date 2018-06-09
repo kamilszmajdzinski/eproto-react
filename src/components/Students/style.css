@@ -80,3 +80,7 @@ thead th {
     background-color: white;
 }
 
+.dialog {
+    background-color: #212121 !important;
+    color: white !important;
+}

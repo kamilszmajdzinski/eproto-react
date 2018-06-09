@@ -9,11 +9,16 @@ import { fetchStudentsAction } from "../../actions/studentsActions";
 import studentsReducer from '../../reducers/studentsreducer';
 import CircularProgress from 'material-ui/CircularProgress';
 import Notifications from '../Notifications'
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+
 
 class Students extends Component {
 
     state = {
-        addNewStudentComponentEnabled: false
+        addNewStudentComponentEnabled: false,
+        dialogOpen: false,
+        deletingStudent: null
     }
 
     componentDidMount = () => {
@@ -30,18 +35,35 @@ class Students extends Component {
        this.setState({
            addNewStudentComponentEnabled: true
        })
-   } 
+   }
+   
+   handleRemoveStudent = (student) => {
+       this.setState({ 
+           deletingStudent: student,
+           dialogOpen: true })
+           console.log(this.state.student)
+   }
+
+   handleDialogClose = () => {
+        this.setState({
+            dialogOpen: false
+        })
+   }
 
    renderStudent = (student) => {
            return(
-            <tr className = 'dataRow'>
+            <tr className = 'dataRow' key = {student.index}>
             <td>{student.index}</td>
             <td>{student.firstname}</td>
             <td>{student.lastname}</td>
             <td>{student.birthday}</td>
             <td className = 'actionCell' >
-                <i class="far fa-chart-bar" title = 'Students grades'></i>
-                <i class="fas fa-trash" title ='Delete student'></i>
+                <i class="far fa-chart-bar" 
+                   title = 'Students grades'
+                   onClick></i>
+                <i class="fas fa-trash" 
+                   title ='Delete student'
+                   onClick = {e => this.handleRemoveStudent(student)}></i>
             </td>
         </tr>
         )
@@ -49,6 +71,22 @@ class Students extends Component {
 
   render() {
     const { students, isFetching } = this.props
+    const { deletingStudent } = this.state
+
+    const actions = [
+        <FlatButton
+          label="Cancel"
+          primary={true}
+          onClick={this.handleDialogClose}
+        />,
+        <FlatButton
+          label="Submit"
+          primary={true}
+          disabled={true}
+          onClick={this.handleDialogClose}
+        />,
+      ];
+
     return (
       <div className = 'dataContainer'>
         <p> Students </p>
@@ -76,8 +114,18 @@ class Students extends Component {
         </table>
         </form>
         )}
+            <Dialog
+            title="Confirm the student's removal"
+            actions={actions}
+            modal={true} 
+            open={this.state.dialogOpen}
+            paperClassName = 'dialog'
+            >
+            Do you really want to delete 
+             {deletingStudent && ` ${deletingStudent.firstname}  ${deletingStudent.lastname}?`} 
+            </Dialog>
             <FloatingActionButton 
-                style = {style} 
+                style = {buttonStyle} 
                 backgroundColor = '#1db954'
                  onClick = {this.handleAddNewStudent}
                  title = "Add new student">
@@ -90,11 +138,13 @@ class Students extends Component {
 }
 
 
-const style = {
+const buttonStyle = {
     position: 'fixed',
     bottom: '90px',
     right: '60px'
 }
+
+
 
 const spinnerStyle = {
     position: 'fixed',
