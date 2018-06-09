@@ -23,3 +23,10 @@ export const addStudent = (body) => {
         mode: 'cors' 
     })
 }
+
+export const removeStudent = (index) => {
+    return fetch(URL + `/students/${index}`, {
+        method: 'DELETE',
+        mode: 'cors'
+    })
+}

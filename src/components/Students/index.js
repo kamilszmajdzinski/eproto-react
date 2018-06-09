@@ -5,12 +5,13 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import AddNewStudent from "../AddNewStudent";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux'
-import { fetchStudentsAction } from "../../actions/studentsActions";
+import { fetchStudentsAction, removeStudentAction } from "../../actions/studentsActions";
 import studentsReducer from '../../reducers/studentsreducer';
 import CircularProgress from 'material-ui/CircularProgress';
 import Notifications from '../Notifications'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+
 
 
 class Students extends Component {
@@ -37,12 +38,20 @@ class Students extends Component {
        })
    }
    
-   handleRemoveStudent = (student) => {
+   handleRemoveDialogOpen = (student) => {
        this.setState({ 
            deletingStudent: student,
            dialogOpen: true })
-           console.log(this.state.student)
    }
+
+   handleRemoveStudent = () => {
+       this.props.removeStudentAction(this.state.deletingStudent.index)
+       this.setState({
+           dialogOpen: false
+       })
+       this.props.fetchStudentsAction()
+   }
+
 
    handleDialogClose = () => {
         this.setState({
@@ -63,7 +72,7 @@ class Students extends Component {
                    onClick></i>
                 <i class="fas fa-trash" 
                    title ='Delete student'
-                   onClick = {e => this.handleRemoveStudent(student)}></i>
+                   onClick = {e => this.handleRemoveDialogOpen(student)}></i>
             </td>
         </tr>
         )
@@ -83,7 +92,7 @@ class Students extends Component {
         <FlatButton
           label="Delete"
           primary={true}
-          onClick={this.handleDialogClose}
+          onClick={this.handleRemoveStudent }
           labelStyle = {{ color: `#ba1c1e` }}
         />,
       ];
@@ -164,7 +173,8 @@ const mapStateToProps = ({ studentsReducer }) => {
 
 const mapDispatchToProps = dispatch =>{
     return bindActionCreators ({
-        fetchStudentsAction
+        fetchStudentsAction,
+        removeStudentAction
     }, dispatch)
 }
 
