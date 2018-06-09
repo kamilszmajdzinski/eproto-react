@@ -5,13 +5,18 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import AddNewCourse from '../AddNewCourse'
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { fetchCoursesAction } from "../../actions/coursesActions";
+import { fetchCoursesAction, removeCourseAction } from "../../actions/coursesActions";
 import CircularProgress from 'material-ui/CircularProgress';
 import Notifications from '../Notifications/index'
+import Dialog from 'material-ui/Dialog';
+import FlatButton from 'material-ui/FlatButton';
+
 
 class Courses extends Component {
     state = {
-        addNewCourseComponentEnabled: false
+        addNewCourseComponentEnabled: false,
+        dialogOpen: false,
+        deletingCourse: null
     }
 
     componentDidMount = () => {
@@ -29,22 +34,60 @@ class Courses extends Component {
         this.setState({ addNewCourseComponentEnabled: true})
     }
 
+    handleRemoveDialogOpen = (course) => {
+        this.setState({ 
+            deletingCourse: course,
+            dialogOpen: true })
+    }
+
+    handleRemoveCourse = () => {
+        this.props.removeCourseAction(this.state.deletingCourse.id)
+        this.setState({
+            dialogOpen: false
+        })
+        this.props.fetchCoursesAction()
+    }
+
+    handleDialogClose = () => {
+        this.setState({
+            dialogOpen: false
+        })
+   }
+
     renderCourse = (course) => {
         return(
-            <tr className = 'dataRow'>
+            <tr className = 'dataRow' key = {course.id}>
                 <td>{course.name}</td>
                 <td>{course.lecturer}</td>
                 <td className = 'actionCell'>
-                    <i class="fas fa-edit" title ='Edit course'></i>
-                    <i class="fas fa-trash" title ='Delete course'></i>
+                    <i class="fas fa-edit" 
+                       title ='Edit course'></i>
+                    <i class="fas fa-trash" 
+                       title ='Delete course'
+                       onClick = {e => this.handleRemoveDialogOpen(course)}></i>
                 </td>
             </tr>
         )
     }
 
   render() {
-
     const { courses, isFetching } = this.props
+    const { deletingCourse } = this.state
+
+    const actions = [
+        <FlatButton
+          label="Cancel"
+          primary={true}
+          onClick={this.handleDialogClose}
+          labelStyle = {{ color: `#1db954` }}
+        />,
+        <FlatButton
+          label="Delete"
+          primary={true}
+          onClick={this.handleRemoveCourse }
+          labelStyle = {{ color: `#ba1c1e` }}
+        />,
+      ];
 
     return (
       <div className = 'dataContainer'>
@@ -74,6 +117,20 @@ class Courses extends Component {
             </tbody>
         </table>
         )}
+
+        <Dialog
+            title="Confirm the course removal"
+            actions={actions}
+            modal={true} 
+            open={this.state.dialogOpen}
+            bodyStyle = {{ color: `white` }}
+            titleStyle = {{ color: `white` }}
+            paperClassName = 'dialog'
+            >
+            Do you really want to delete 
+             {deletingCourse && ` ${deletingCourse.name}?`} 
+            </Dialog>
+
         <FloatingActionButton 
                 style = {style} 
                 backgroundColor = '#1db954'
@@ -109,7 +166,8 @@ const mapStateToProps = ({ coursesReducer }) => {
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators({
-        fetchCoursesAction
+        fetchCoursesAction,
+        removeCourseAction
     }, dispatch)
 }
 

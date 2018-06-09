@@ -9,6 +9,9 @@ export const ADD_COURSE_PENDING = 'ADD_COURSE_PENDING'
 export const ADD_COURSE_SUCCESS = 'ADD_COURSE_SUCCESS'
 export const ADD_COURSE_ERROR = 'ADD_COURSE_ERROR'
 
+export const DEL_COURSE_PENDING = 'DEL_COURSE_PENDING'
+export const DEL_COURSE_SUCCESS = 'DEL_COURSE_SUCCESS'
+export const DEL_COURSE_ERROR = 'DEL_COURSE_ERROR'
 
 
 export const courses = 'courses'
@@ -42,6 +45,23 @@ export function addCourseAction(body){
             .catch(err => {
                 dispatch({ type: ADD_COURSE_ERROR})
                 showNotification(err.toString())(dispatch)
+            })
+    }
+}
+
+export const removeCourseAction = (id) => {
+    return dispatch => {
+        dispatch({ type: DEL_COURSE_PENDING})
+        return removeResource(courses, id)
+            .then(res => {
+                if (res.status === 200) {
+                    dispatch({ type: DEL_COURSE_SUCCESS })
+                    showNotification('Course has been removed correctly')(dispatch)
+                }
+            })
+            .catch(err => {
+                dispatch({ type: DEL_COURSE_ERROR })
+                showNotification(err.toString)(dispatch)
             })
     }
 }
