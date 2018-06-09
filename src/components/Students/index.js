@@ -78,12 +78,13 @@ class Students extends Component {
           label="Cancel"
           primary={true}
           onClick={this.handleDialogClose}
+          labelStyle = {{ color: `#1db954` }}
         />,
         <FlatButton
-          label="Submit"
+          label="Delete"
           primary={true}
-          disabled={true}
           onClick={this.handleDialogClose}
+          labelStyle = {{ color: `#ba1c1e` }}
         />,
       ];
 
@@ -119,6 +120,8 @@ class Students extends Component {
             actions={actions}
             modal={true} 
             open={this.state.dialogOpen}
+            bodyStyle = {{ color: `white` }}
+            titleStyle = {{ color: `white` }}
             paperClassName = 'dialog'
             >
             Do you really want to delete 
