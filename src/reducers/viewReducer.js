@@ -16,7 +16,6 @@ const viewReducer = (state = initialState, action) => {
                 ...state,
                 view: "courses"
             }
-    
         default:
             return state;
     }

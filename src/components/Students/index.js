@@ -20,6 +20,11 @@ class Students extends Component {
       this.props.fetchStudentsAction()
     }
    
+    componentWillReceiveProps = () => {
+        this.setState({
+            addNewStudentComponentEnabled: false
+        })
+    }
 
    handleAddNewStudent = () => {
        this.setState({
@@ -30,28 +35,20 @@ class Students extends Component {
    renderStudent = (student) => {
            return(
             <tr className = 'dataRow'>
-            <td>
-                {student.index}
-            </td>
-            <td>
-                {student.firstname}
-            </td>
-            <td>
-                {student.lastname}
-            </td>
-            <td>
-                {student.birthday}
-            </td>
+            <td>{student.index}</td>
+            <td>{student.firstname}</td>
+            <td>{student.lastname}</td>
+            <td>{student.birthday}</td>
             <td className = 'actionCell' >
                 <i class="far fa-chart-bar" title = 'Students grades'></i>
                 <i class="fas fa-trash" title ='Delete student'></i>
             </td>
         </tr>
-           )
+        )
    }
 
   render() {
-      const { students, isFetching } = this.props
+    const { students, isFetching } = this.props
     return (
       <div className = 'dataContainer'>
         <p> Students </p>

@@ -30,6 +30,16 @@ export function addStudentAction(body) {
     return dispatch => {
         dispatch({ type: ADD_STUDENT_PENDING })
         return addStudent(body)
-            .then(res => console.log(res))
+            .then(res => {
+                if (res.status === 201) {
+                    dispatch({ type: ADD_STUDENT_SUCCESS })
+                    showNotification('The student was correctly added')(dispatch)
+                    fetchStudentsAction()(dispatch)
+                }
+            })
+            .catch(err => {
+                dispatch({ type: ADD_STUDENT_ERROR})
+                showNotification(err.toString())
+            })
     }
 }

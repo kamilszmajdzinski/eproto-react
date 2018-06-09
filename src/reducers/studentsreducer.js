@@ -1,4 +1,4 @@
-import { FETCH_STUDENTS_PENDING, FETCH_STUDENTS_SUCCESS, FETCH_STUDENTS_ERROR, ADD_STUDENT_PENDING } from "../actions/studentsActions";
+import { FETCH_STUDENTS_PENDING, FETCH_STUDENTS_SUCCESS, FETCH_STUDENTS_ERROR, ADD_STUDENT_PENDING, ADD_STUDENT_SUCCESS, ADD_STUDENT_ERROR } from "../actions/studentsActions";
 
 const initialState = {
     isFetching: false,
@@ -28,6 +28,16 @@ const studentsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 addUserPending: true
+            }
+        case ADD_STUDENT_SUCCESS:
+            return{
+                ...state,
+                addUserPending: false
+            }
+        case ADD_STUDENT_ERROR: 
+            return{
+                ...state,
+                addUserPending: false
             }
         default:
             return state;
