@@ -7,6 +7,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { fetchCoursesAction } from "../../actions/coursesActions";
 import CircularProgress from 'material-ui/CircularProgress';
+import Notifications from '../Notifications/index'
 
 class Courses extends Component {
     state = {
@@ -15,6 +16,12 @@ class Courses extends Component {
 
     componentDidMount = () => {
       this.props.fetchCoursesAction()
+    }
+
+    componentWillReceiveProps = () => {
+        this.setState({
+            addNewCourseComponentEnabled: false
+        })
     }
     
 
@@ -74,6 +81,7 @@ class Courses extends Component {
                  title = "Add new student">
                 <ContentAdd />
             </FloatingActionButton>
+            <Notifications />
       </div>
     )
   }

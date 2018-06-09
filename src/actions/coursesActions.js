@@ -5,6 +5,11 @@ export const FETCH_COURSES_PENDING = 'FETCH_COURSES_PENDING'
 export const FETCH_COURSES_SUCCESS = 'FETCH_COURSES_SUCCESS'
 export const FETCH_COURSES_ERROR = 'FETCH_COURSES_ERROR'
 
+export const ADD_COURSE_PENDING = 'ADD_COURSE_PENDING'
+export const ADD_COURSE_SUCCESS = 'ADD_COURSE_SUCCESS'
+export const ADD_COURSE_ERROR = 'ADD_COURSE_ERROR'
+
+
 
 export const courses = 'courses'
 
@@ -18,6 +23,24 @@ export function fetchCoursesAction() {
             })
             .catch(err => {
                 dispatch({ type: FETCH_COURSES_ERROR })
+                showNotification(err.toString())(dispatch)
+            })
+    }
+}
+
+export function addCourseAction(body){
+    return dispatch => {
+        dispatch({ type: ADD_COURSE_PENDING})
+        return addResource(courses, body)
+            .then(res => {
+                if (res.status === 201) {
+                    dispatch({ type: ADD_COURSE_SUCCESS })
+                    showNotification('The course has been added correctly ')
+                    fetchCoursesAction()(dispatch)
+                }
+            })
+            .catch(err => {
+                dispatch({ type: ADD_COURSE_ERROR})
                 showNotification(err.toString())(dispatch)
             })
     }

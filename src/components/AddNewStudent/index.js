@@ -39,9 +39,21 @@ class AddNewStudent extends Component {
     return (
         <tr className = 'dataRow' id = 'addStudentRow'>
                 <td></td>
-                <td><input type = 'text' required value = {this.state.firstname} onChange = {(e) => {this.setState({ firstname: e.target.value})}} /></td>
-                <td><input type = 'text' required value = {this.state.lastname} onChange = {(e) => {this.setState({ lastname: e.target.value})}} /></td>
-                <td><input type = 'date' required value = {this.state.birthday} onChange = {(e) => {this.setState({ birthday: e.target.value})}} /></td>
+                <td><input 
+                        type = 'text' 
+                        required 
+                        value = {this.state.firstname} 
+                        onChange = {(e) => {this.setState({ firstname: e.target.value})}} /></td>
+                <td><input 
+                        type = 'text' 
+                        required 
+                        value = {this.state.lastname} 
+                        onChange = {(e) => {this.setState({ lastname: e.target.value})}} /></td>
+                <td><input 
+                        type = 'date' 
+                        required 
+                        value = {this.state.birthday} 
+                        onChange = {(e) => {this.setState({ birthday: e.target.value})}} /></td>
                 <td className = 'actionCell' ><i class="fas fa-check" title = "Add student " onClick={this.handleAddNewStudent}></i></td>
         </tr>
     )
