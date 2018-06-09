@@ -1,5 +1,6 @@
 import { fetchResources, addResource, removeResource } from "../api/index";
 import { showNotification } from '../actions/notificationsActions'
+import { fetchCoursesAction } from "./coursesActions";
 
 export const FETCH_STUDENTS_PENDING = 'FETCH_STUDENT_PENDING'
 export const FETCH_STUDENTS_SUCCESS = 'FETCH_STUDENT_SUCCESS'
@@ -44,7 +45,7 @@ export function addStudentAction(body) {
             })
             .catch(err => {
                 dispatch({ type: ADD_STUDENT_ERROR})
-                showNotification(err.toString())
+                showNotification(err.toString())(dispatch)
             })
     }
 }
@@ -57,6 +58,7 @@ export const removeStudentAction = (index) => {
                 if (res.status === 200) {
                     dispatch({ type: DEL_STUDENT_SUCCESS })
                     showNotification('The student was removed correctly')(dispatch)
+                    fetchCoursesAction()(dispatch)
                 }
             })
             .catch(err => {

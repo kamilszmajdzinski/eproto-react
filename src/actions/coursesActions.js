@@ -38,7 +38,7 @@ export function addCourseAction(body){
             .then(res => {
                 if (res.status === 201) {
                     dispatch({ type: ADD_COURSE_SUCCESS })
-                    showNotification('The course has been added correctly ')
+                    showNotification('The course has been added correctly')(dispatch)
                     fetchCoursesAction()(dispatch)
                 }
             })
