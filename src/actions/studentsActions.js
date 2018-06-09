@@ -1,4 +1,4 @@
-import { fetchStudents, addStudent, removeStudent } from "../api/index";
+import { fetchResources, addResource, removeResource } from "../api/index";
 import { showNotification } from '../actions/notificationsActions'
 
 export const FETCH_STUDENTS_PENDING = 'FETCH_STUDENT_PENDING'
@@ -13,13 +13,13 @@ export const DEL_STUDENT_PENDING = 'DEL_STUDENT_PENDING'
 export const DEL_STUDENT_SUCCESS = 'DEL_STUDENT_SUCCESS'
 export const DEL_STUDENT_ERROR = 'DEL_STUDENT_ERROR'
 
-
+export const students = 'students'
 
 
 export function fetchStudentsAction(){
     return dispatch => {
          dispatch({ type: FETCH_STUDENTS_PENDING })
-        return fetchStudents()
+        return fetchResources(students)
             .then(res => res.json())
             .then(resJson => {
                 dispatch({ type: FETCH_STUDENTS_SUCCESS, resJson })
@@ -34,7 +34,7 @@ export function fetchStudentsAction(){
 export function addStudentAction(body) {
     return dispatch => {
         dispatch({ type: ADD_STUDENT_PENDING })
-        return addStudent(body)
+        return addResource(students, body)
             .then(res => {
                 if (res.status === 201) {
                     dispatch({ type: ADD_STUDENT_SUCCESS })
@@ -52,7 +52,7 @@ export function addStudentAction(body) {
 export const removeStudentAction = (index) => {
     return dispatch => {
         dispatch({ type: DEL_STUDENT_PENDING })
-        return removeStudent(index)
+        return removeResource(students, index)
             .then(res => {
                 if (res.status === 200) {
                     dispatch({ type: DEL_STUDENT_SUCCESS })

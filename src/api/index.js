@@ -1,7 +1,7 @@
 const URL = 'http://localhost:8085';
 
-export const fetchStudents = () => {
-    return fetch(URL + '/students',{
+export const fetchResources = (endpoint) => {
+    return fetch(URL + `/${endpoint}`,{
         method: 'GET',
         headers: {
             'Accept': 'application/json',
@@ -12,8 +12,8 @@ export const fetchStudents = () => {
     })
 }
 
-export const addStudent = (body) => {
-    return fetch(URL + '/students', {
+export const addResource = (endpoint, body) => {
+    return fetch(URL + `/${endpoint}`, {
         method: 'POST',
         headers: {
             'Accept': 'application/json',
@@ -24,9 +24,20 @@ export const addStudent = (body) => {
     })
 }
 
-export const removeStudent = (index) => {
-    return fetch(URL + `/students/${index}`, {
+export const removeResource = (endpoint, index) => {
+    return fetch(URL + `/${endpoint}/${index}`, {
         method: 'DELETE',
         mode: 'cors'
+    })
+}
+
+export const fetchGrades = () => {
+    return fetch(URL + '/grades', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        mode: 'cors' 
     })
 }
