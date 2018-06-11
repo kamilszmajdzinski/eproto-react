@@ -21,19 +21,20 @@ class CourseList extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        if(nextProps.addCourseSuccess !== this.props.addCourseSuccess){
+        const { addCourseSuccess, hasBeenDeletedSuccessfully, fetchCoursesAction } = this.props
+
+        if(nextProps.addCourseSuccess !== addCourseSuccess){
             this.setState({ addNewCourseComponentEnabled: false })
-            this.props.fetchCoursesAction()
+            fetchCoursesAction()
+        }
+        if (nextProps.hasBeenDeletedSuccessfully !== this.props.hasBeenDeletedSuccessfully) {
+            fetchCoursesAction()
         }
     }
    
-
     handleAddNewCourse = () => {
         this.setState({ addNewCourseComponentEnabled: true})
     }
-
-
-
 
   render() {
     const { courses, isFetching } = this.props

@@ -21,6 +21,8 @@ class Course extends Component {
         }
     }
 
+   
+
     handleRemoveDialogOpen = () => {
         this.setState({ dialogOpen: true })
     }
@@ -41,7 +43,7 @@ class Course extends Component {
         this.setState({  editCourseView: true})
     }
 
-    handleCancelEdit = () => {
+    handleEditCancel = () => {
         this.setState({ editCourseView: false })
     }
     
@@ -116,12 +118,18 @@ class Course extends Component {
                         onClick = {e => this.putCourse(course)}></i>
                     <i class="fas fa-times" 
                        title ='Cancel'
-                       onClick = {e => this.handleCancelEdit()}></i>
+                       onClick = {e => this.handleEditCancel()}></i>
                 </td>
             </tr>
         )
     }
   }
+}
+
+const mapStateToProps = ({ coursesReducer }) => {
+    return{
+        hasBeenDeletedSuccessfully: coursesReducer.hasBeenDeletedSuccessfully
+    }
 }
 
 const mapDispatchToProps = dispatch => {
@@ -130,4 +138,4 @@ const mapDispatchToProps = dispatch => {
     }, dispatch)
 }
 
-export default connect(null, mapDispatchToProps)(Course)
+export default connect(mapStateToProps, mapDispatchToProps)(Course)
