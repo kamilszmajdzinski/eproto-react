@@ -3,7 +3,7 @@ import AppFooter from './components/AppFooter';
 import AppHeader from './components/AppHeader';
 import AppNavbar from './components/AppNavbar';
 import Students from "./components/Students";
-import Courses from './components/Courses'
+import CourseList from './components/CourseList'
 import { connect } from "react-redux";
 import './style.css'
 
@@ -21,7 +21,7 @@ class App extends Component {
         )
     }else if(this.props.view === 'courses'){
       return (
-        <Courses />
+        <CourseList />
       )
     }
   }

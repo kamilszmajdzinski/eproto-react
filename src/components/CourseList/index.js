@@ -10,13 +10,15 @@ import CircularProgress from 'material-ui/CircularProgress';
 import Notifications from '../Notifications/index'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import Course from '../Course'
 
 
-class Courses extends Component {
+class CourseList extends Component {
     state = {
         addNewCourseComponentEnabled: false,
         dialogOpen: false,
-        deletingCourse: null
+        deletingCourse: null,
+        courseEditView: false
     }
 
     componentDidMount = () => {
@@ -41,11 +43,19 @@ class Courses extends Component {
     }
 
     handleRemoveCourse = () => {
-        this.props.removeCourseAction(this.state.deletingCourse.id)
+
+        const { removeCourseAction,
+                fetchCoursesAction,
+                hasBeenDeletedSuccessfully } = this.props
+
+        removeCourseAction(this.state.deletingCourse.id)
         this.setState({
             dialogOpen: false
         })
-        this.props.fetchCoursesAction()
+        if (hasBeenDeletedSuccessfully) {
+            console.log('usunięto poprawnie')
+            fetchCoursesAction()
+        }
     }
 
     handleDialogClose = () => {
@@ -54,20 +64,42 @@ class Courses extends Component {
         })
    }
 
+   handleEditCourse = (course) => {
+    this.setState({ courseEditView: true })
+   }
+
     renderCourse = (course) => {
-        return(
-            <tr className = 'dataRow' key = {course.id}>
-                <td>{course.name}</td>
-                <td>{course.lecturer}</td>
-                <td className = 'actionCell'>
-                    <i class="fas fa-edit" 
-                       title ='Edit course'></i>
-                    <i class="fas fa-trash" 
-                       title ='Delete course'
-                       onClick = {e => this.handleRemoveDialogOpen(course)}></i>
-                </td>
-            </tr>
-        )
+       
+            //     return(
+            //     <tr className = 'dataRow' key = {course.id}>
+            //     <td>
+            //         <input
+            //             type = "text" 
+            //             value = {course.name}
+            //         />
+            //     </td>
+            //     <td>
+            //         <input 
+            //             type = "text" 
+            //             value = {course.lecturer}
+            //         />
+            //     </td>
+            //     <td className = 'actionCell'>
+            //         <i class="fas fa-edit" 
+            //         title ='Edit course'
+            //         onClick = {e => this.handleEditCourse(course)}
+            //         ></i>
+            //         <i class="fas fa-trash" 
+            //         title ='Delete course'
+            //         onClick = {e => this.handleRemoveDialogOpen(course)}>
+            //         </i>
+            //     </td>
+            // </tr> 
+
+            //     )
+            // }
+            
+            
     }
 
   render() {
@@ -108,7 +140,7 @@ class Courses extends Component {
                 {this.state.addNewCourseComponentEnabled && <AddNewCourse /> }
 
                 {courses ? (
-                    courses.map(course => this.renderCourse(course))
+                    courses.map(course => <Course course = {course}/>)
                 ):(
                     <p>There's no courses</p>
                 )}
@@ -160,7 +192,8 @@ const spinnerStyle = {
 const mapStateToProps = ({ coursesReducer }) => {
     return {
         courses: coursesReducer.courses,
-        isFetching: coursesReducer.isFetching
+        isFetching: coursesReducer.isFetching,
+        hasBeenDeletedSuccessfully: coursesReducer.hasBeenDeletedSuccessfully
     }
 }
 
@@ -171,4 +204,4 @@ const mapDispatchToProps = dispatch => {
     }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Courses)
+export default connect(mapStateToProps, mapDispatchToProps)(CourseList)

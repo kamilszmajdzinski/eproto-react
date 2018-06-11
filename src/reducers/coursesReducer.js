@@ -14,7 +14,8 @@ const initialState = {
     courses: [],
     isFetching: false,
     addCoursePending: false,
-    deletePending: false
+    deletePending: false,
+    hasBeenDeletedSuccessfully: false
 }
 
 export default function coursesReducer(state = initialState, action){
@@ -53,12 +54,14 @@ export default function coursesReducer(state = initialState, action){
         case DEL_COURSE_PENDING: 
             return{
                 ...state,
-                deletePending: true
+                deletePending: true,
+                hasBeenDeletedSuccessfully: false
             }
         case DEL_COURSE_SUCCESS:
             return{
                 ...state,
-                deletePending: false
+                deletePending: false,
+                hasBeenDeletedSuccessfully: true
             }
         case DEL_COURSE_ERROR:
             return{
