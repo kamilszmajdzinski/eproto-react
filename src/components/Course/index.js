@@ -5,6 +5,7 @@ import PropTypes from 'prop-types'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { removeCourseAction } from "../../actions/coursesActions";
+import { putCourseAction } from "../../actions/coursesActions";
 
 import './style.css'
 
@@ -16,35 +17,59 @@ class Course extends Component {
             editCourseView: false,
             name: this.props.course.name,
             lecturer: this.props.course.lecturer,
-            dialogOpen: false
-            
+            id: this.props.course.id,
+            dialogOpen: false,
+            tempCourse: {
+                name: '',
+                lecturer: ''
+            }
         }
     }
 
-   
+    componentWillReceiveProps(nextProps){
+        if (nextProps.hasBeenPuttedSuccessfully !== this.props.hasBeenPuttedSuccessfully) {
+            this.setState({ editCourseView: false })
+        }
+    }
 
     handleRemoveDialogOpen = () => {
         this.setState({ dialogOpen: true })
-    }
-
-    handleRemoveCourse = () => {
-        this.props.removeCourseAction(this.props.course.id)
-        this.setState({ dialogOpen: false })
     }
 
     handleDialogClose = () => {
         this.setState({
             dialogOpen: false
         })
-   }
-
+    }
+    
+    handleRemoveCourse = () => {
+        this.props.removeCourseAction(this.state.id)
+        this.setState({ dialogOpen: false })
+    }
     
     handleEditCourse = () => {
+        const { tempCourse, name, lecturer } = this.state
         this.setState({  editCourseView: true})
+        tempCourse.name = name
+        tempCourse.lecturer = lecturer
     }
 
     handleEditCancel = () => {
-        this.setState({ editCourseView: false })
+        const { tempCourse } = this.state
+        this.setState({ 
+            editCourseView: false,
+            name: tempCourse.name,
+            lecturer: tempCourse.lecturer
+        })
+    }
+
+    handlePutCourse = () => {
+        const { name, lecturer, id } = this.state
+        const body = {
+            name,
+            lecturer
+        }
+        this.props.putCourseAction(id, body)
     }
     
     render() {
@@ -53,6 +78,7 @@ class Course extends Component {
         lecturer: this.state.lecturer,
         id: this.props.id
     }
+
 
     const actions = [
         <FlatButton
@@ -115,7 +141,7 @@ class Course extends Component {
                 <td className = 'actionCell'>
                     <i class="fas fa-check" 
                         title ='Save changes'
-                        onClick = {e => this.putCourse(course)}></i>
+                        onClick = {e => this.handlePutCourse()}></i>
                     <i class="fas fa-times" 
                        title ='Cancel'
                        onClick = {e => this.handleEditCancel()}></i>
@@ -128,13 +154,14 @@ class Course extends Component {
 
 const mapStateToProps = ({ coursesReducer }) => {
     return{
-        hasBeenDeletedSuccessfully: coursesReducer.hasBeenDeletedSuccessfully
+        hasBeenPuttedSuccessfully: coursesReducer.hasBeenPuttedSuccessfully
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators({
-        removeCourseAction
+        removeCourseAction,
+        putCourseAction
     }, dispatch)
 }
 

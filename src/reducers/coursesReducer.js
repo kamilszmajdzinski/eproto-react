@@ -7,7 +7,10 @@ import {
     ADD_COURSE_ERROR,
     DEL_COURSE_PENDING,
     DEL_COURSE_SUCCESS,
-    DEL_COURSE_ERROR} from "../actions/coursesActions";
+    DEL_COURSE_ERROR,
+    PUT_COURSE_SUCCESS,
+    PUT_COURSE_ERROR,
+    PUT_COURSE_PENDING} from "../actions/coursesActions";
 
 
 const initialState = {
@@ -16,7 +19,8 @@ const initialState = {
     addCoursePending: false,
     addCourseSuccess: false,
     deletePending: false,
-    hasBeenDeletedSuccessfully: false
+    hasBeenDeletedSuccessfully: false,
+    hasBeenPuttedSuccessfully: false
 }
 
 export default function coursesReducer(state = initialState, action){
@@ -71,6 +75,21 @@ export default function coursesReducer(state = initialState, action){
             return{
                 ...state,
                 deletePending: false
+            }
+        case PUT_COURSE_PENDING:
+            return {
+                ...state,
+                hasBeenPuttedSuccessfully: false
+            }
+        case PUT_COURSE_SUCCESS:
+            return {
+                ...state,
+                hasBeenPuttedSuccessfully: true
+            }
+        case PUT_COURSE_ERROR:
+            return{
+                ...state,
+                hasBeenPuttedSuccessfully: false
             }
     
         default:

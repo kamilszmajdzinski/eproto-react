@@ -41,3 +41,15 @@ export const fetchGrades = () => {
         mode: 'cors' 
     })
 }
+
+export const putResource = (endpoint, index, body) => {
+    return fetch(URL + `/${endpoint}/${index}`, {
+        method: 'PUT',
+        body: JSON.stringify(body),
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+        mode: 'cors' 
+    })
+}

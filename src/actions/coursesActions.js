@@ -1,4 +1,4 @@
-import { fetchResources, addResource, removeResource } from "../api/index";
+import { fetchResources, addResource, removeResource, putResource } from "../api/index";
 import { showNotification } from "../actions/notificationsActions";
 
 export const FETCH_COURSES_PENDING = 'FETCH_COURSES_PENDING'
@@ -12,6 +12,11 @@ export const ADD_COURSE_ERROR = 'ADD_COURSE_ERROR'
 export const DEL_COURSE_PENDING = 'DEL_COURSE_PENDING'
 export const DEL_COURSE_SUCCESS = 'DEL_COURSE_SUCCESS'
 export const DEL_COURSE_ERROR = 'DEL_COURSE_ERROR'
+
+export const PUT_COURSE_SUCCESS = 'PUT_COURSE_SUCCESS'
+export const PUT_COURSE_PENDING = 'PUT_COURSE_PENDING'
+export const PUT_COURSE_ERROR = 'PUT_COURSE_ERROR'
+
 
 
 export const courses = 'courses'
@@ -62,6 +67,23 @@ export const removeCourseAction = (id) => {
             .catch(err => {
                 dispatch({ type: DEL_COURSE_ERROR })
                 showNotification(err.toString)(dispatch)
+            })
+    }
+}
+
+export const putCourseAction = (id, body) => {
+    return dispatch => {
+        dispatch({type: PUT_COURSE_PENDING })
+        return putResource(courses, id, body)
+            .then(res => {
+                if (res.status === 200) {
+                    dispatch({ type: PUT_COURSE_SUCCESS })
+                    showNotification('Course has been saved correctly')(dispatch)
+                }
+            })
+            .catch(err => {
+                dispatch({ type: PUT_COURSE_ERROR })
+                showNotification(err.toString())(dispatch)
             })
     }
 }

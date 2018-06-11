@@ -39,8 +39,6 @@ class CourseList extends Component {
   render() {
     const { courses, isFetching } = this.props
     
-
-
     return (
       <div className = 'dataContainer'>
         <p> Courses </p>
@@ -65,12 +63,10 @@ class CourseList extends Component {
                     <p>There's no courses</p>
                 )}
 
-                
             </tbody>
         </table>
         )}
 
-        
         <FloatingActionButton 
                 style = {style} 
                 backgroundColor = '#1db954'
