@@ -5,121 +5,40 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 import AddNewCourse from '../AddNewCourse'
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { fetchCoursesAction, removeCourseAction } from "../../actions/coursesActions";
+import { fetchCoursesAction } from "../../actions/coursesActions";
 import CircularProgress from 'material-ui/CircularProgress';
 import Notifications from '../Notifications/index'
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
 import Course from '../Course'
 
 
 class CourseList extends Component {
     state = {
         addNewCourseComponentEnabled: false,
-        dialogOpen: false,
-        deletingCourse: null,
-        courseEditView: false
     }
 
     componentDidMount = () => {
-      this.props.fetchCoursesAction()
+          this.props.fetchCoursesAction()
     }
 
-    componentWillReceiveProps = () => {
-        this.setState({
-            addNewCourseComponentEnabled: false
-        })
+    componentWillReceiveProps(nextProps){
+        if(nextProps.addCourseSuccess !== this.props.addCourseSuccess){
+            this.setState({ addNewCourseComponentEnabled: false })
+            this.props.fetchCoursesAction()
+        }
     }
-    
+   
 
     handleAddNewCourse = () => {
         this.setState({ addNewCourseComponentEnabled: true})
     }
 
-    handleRemoveDialogOpen = (course) => {
-        this.setState({ 
-            deletingCourse: course,
-            dialogOpen: true })
-    }
 
-    handleRemoveCourse = () => {
 
-        const { removeCourseAction,
-                fetchCoursesAction,
-                hasBeenDeletedSuccessfully } = this.props
-
-        removeCourseAction(this.state.deletingCourse.id)
-        this.setState({
-            dialogOpen: false
-        })
-        if (hasBeenDeletedSuccessfully) {
-            console.log('usunięto poprawnie')
-            fetchCoursesAction()
-        }
-    }
-
-    handleDialogClose = () => {
-        this.setState({
-            dialogOpen: false
-        })
-   }
-
-   handleEditCourse = (course) => {
-    this.setState({ courseEditView: true })
-   }
-
-    renderCourse = (course) => {
-       
-            //     return(
-            //     <tr className = 'dataRow' key = {course.id}>
-            //     <td>
-            //         <input
-            //             type = "text" 
-            //             value = {course.name}
-            //         />
-            //     </td>
-            //     <td>
-            //         <input 
-            //             type = "text" 
-            //             value = {course.lecturer}
-            //         />
-            //     </td>
-            //     <td className = 'actionCell'>
-            //         <i class="fas fa-edit" 
-            //         title ='Edit course'
-            //         onClick = {e => this.handleEditCourse(course)}
-            //         ></i>
-            //         <i class="fas fa-trash" 
-            //         title ='Delete course'
-            //         onClick = {e => this.handleRemoveDialogOpen(course)}>
-            //         </i>
-            //     </td>
-            // </tr> 
-
-            //     )
-            // }
-            
-            
-    }
 
   render() {
     const { courses, isFetching } = this.props
-    const { deletingCourse } = this.state
+    
 
-    const actions = [
-        <FlatButton
-          label="Cancel"
-          primary={true}
-          onClick={this.handleDialogClose}
-          labelStyle = {{ color: `#1db954` }}
-        />,
-        <FlatButton
-          label="Delete"
-          primary={true}
-          onClick={this.handleRemoveCourse }
-          labelStyle = {{ color: `#ba1c1e` }}
-        />,
-      ];
 
     return (
       <div className = 'dataContainer'>
@@ -150,19 +69,7 @@ class CourseList extends Component {
         </table>
         )}
 
-        <Dialog
-            title="Confirm the course removal"
-            actions={actions}
-            modal={true} 
-            open={this.state.dialogOpen}
-            bodyStyle = {{ color: `white` }}
-            titleStyle = {{ color: `white` }}
-            paperClassName = 'dialog'
-            >
-            Do you really want to delete 
-             {deletingCourse && ` ${deletingCourse.name}?`} 
-            </Dialog>
-
+        
         <FloatingActionButton 
                 style = {style} 
                 backgroundColor = '#1db954'
@@ -193,14 +100,14 @@ const mapStateToProps = ({ coursesReducer }) => {
     return {
         courses: coursesReducer.courses,
         isFetching: coursesReducer.isFetching,
-        hasBeenDeletedSuccessfully: coursesReducer.hasBeenDeletedSuccessfully
+        hasBeenDeletedSuccessfully: coursesReducer.hasBeenDeletedSuccessfully,
+        addCourseSuccess: coursesReducer.addCourseSuccess
     }
 }
 
 const mapDispatchToProps = dispatch => {
     return bindActionCreators({
         fetchCoursesAction,
-        removeCourseAction
     }, dispatch)
 }
 
