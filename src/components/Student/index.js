@@ -4,6 +4,7 @@ import FlatButton from 'material-ui/FlatButton';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { putStudentAction, removeStudentAction } from "../../actions/studentsActions";
+import { changeView } from "../../actions/viewActions";
 import Notifications from '../Notifications'
 
 class Student extends Component {
@@ -49,8 +50,8 @@ class Student extends Component {
     handleEditStudent = () => {
         const { tempStudent, firstname, lastname, birthday } = this.state
         this.setState({ editStudentView: true })
-        tempStudent.firstname = firstname,
-        tempStudent.lastname = lastname,
+        tempStudent.firstname = firstname
+        tempStudent.lastname = lastname
         tempStudent.birthday = birthday
     }
 
@@ -72,6 +73,10 @@ class Student extends Component {
             birthday
         }
         this.props.putStudentAction(index, body)
+    }
+
+    handleGradesView = () => {
+        this.props.changeView('grades', this.state.index)
     }
 
   render() {
@@ -101,15 +106,14 @@ class Student extends Component {
                 <td>{birthday}</td>
                 <td className = 'actionCell' >
                     <i class="far fa-chart-bar" 
-                    title = 'Students grades'
-                    onClick></i>
+                       title = 'Students grades'
+                       onClick = {e => this.handleGradesView()}></i>
                     <i class="fas fa-edit" 
                         title ='Edit student'
-                        onClick = {e => this.handleEditStudent()}
-                    ></i>
+                        onClick = {e => this.handleEditStudent()}></i>
                     <i class="fas fa-trash" 
-                    title ='Delete student'
-                    onClick = {e => this.handleRemoveDialogOpen()}></i>
+                       title ='Delete student'
+                       onClick = {e => this.handleRemoveDialogOpen()}></i>
                 </td>
                 <Dialog
                     title="Confirm the student's removal"
@@ -181,7 +185,8 @@ const mapStateToProps = ({ studentsReducer }) => {
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
         putStudentAction,
-        removeStudentAction
+        removeStudentAction,
+        changeView
     }, dispatch)
 }
 

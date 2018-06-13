@@ -4,6 +4,7 @@ import AppHeader from './components/AppHeader';
 import AppNavbar from './components/AppNavbar';
 import StudentsList from "./components/StudentsList";
 import CourseList from './components/CourseList'
+import GradesList from './components/GradesList'
 import { connect } from "react-redux";
 import './style.css'
 
@@ -13,7 +14,7 @@ class App extends Component {
   renderComponent = () => {
     if (this.props.view === 'none') {
       return(
-        <p className = 'chooseViewParagraph'>Wybierz widok z menu</p>
+        <p className = 'chooseViewParagraph'>Choose view from Menu</p>
       )
     }else if(this.props.view === 'students'){
         return(
@@ -23,6 +24,10 @@ class App extends Component {
       return (
         <CourseList />
       )
+    }else if (this.props.view === 'grades') {
+      return(
+        <GradesList />
+      )  
     }
   }
 
