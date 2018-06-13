@@ -37,9 +37,7 @@ class Course extends Component {
     }
 
     handleDialogClose = () => {
-        this.setState({
-            dialogOpen: false
-        })
+        this.setState({ dialogOpen: false })
     }
     
     handleRemoveCourse = () => {

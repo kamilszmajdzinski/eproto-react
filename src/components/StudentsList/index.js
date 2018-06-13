@@ -9,8 +9,7 @@ import { fetchStudentsAction, removeStudentAction } from "../../actions/students
 import studentsReducer from '../../reducers/studentsreducer';
 import CircularProgress from 'material-ui/CircularProgress';
 import Notifications from '../Notifications'
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
+
 
 import Student from '../Student'
 
@@ -20,7 +19,6 @@ class StudentsList extends Component {
 
     state = {
         addNewStudentComponentEnabled: false,
-        dialogOpen: false,
         deletingStudent: null
     }
 
@@ -40,11 +38,7 @@ class StudentsList extends Component {
        })
    }
    
-   handleRemoveDialogOpen = (student) => {
-       this.setState({ 
-           deletingStudent: student,
-           dialogOpen: true })
-   }
+  
 
    handleRemoveStudent = () => {
        this.props.removeStudentAction(this.state.deletingStudent.index)
@@ -55,31 +49,11 @@ class StudentsList extends Component {
    }
 
 
-   handleDialogClose = () => {
-        this.setState({
-            dialogOpen: false
-        })
-   }
 
 
   render() {
     const { students, isFetching } = this.props
-    const { deletingStudent } = this.state
 
-    const actions = [
-        <FlatButton
-          label="Cancel"
-          primary={true}
-          onClick={this.handleDialogClose}
-          labelStyle = {{ color: `#1db954` }}
-        />,
-        <FlatButton
-          label="Delete"
-          primary={true}
-          onClick={this.handleRemoveStudent }
-          labelStyle = {{ color: `#ba1c1e` }}
-        />,
-      ];
 
     return (
       <div className = 'dataContainer'>
@@ -108,18 +82,7 @@ class StudentsList extends Component {
         </table>
         </form>
         )}
-            <Dialog
-            title="Confirm the student's removal"
-            actions={actions}
-            modal={true} 
-            open={this.state.dialogOpen}
-            bodyStyle = {{ color: `white` }}
-            titleStyle = {{ color: `white` }}
-            paperClassName = 'dialog'
-            >
-            Do you really want to delete 
-             {deletingStudent && ` ${deletingStudent.firstname}  ${deletingStudent.lastname}?`} 
-            </Dialog>
+            
             <FloatingActionButton 
                 style = {buttonStyle} 
                 backgroundColor = '#1db954'
