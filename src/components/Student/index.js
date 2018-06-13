@@ -6,16 +6,14 @@ class Student extends Component {
 
     constructor(props){
         super(props)
-        const { student } = this.props
         this.state = {
             dialogOpen: false,
             editStudentView: false,
-            student: {
-                index: student.index,
-                firstName: student.firstname,
-                lastname: student.lastname,
-                birthday: student.birthday,
-            },
+            index: this.props.student.index,
+            firstName: this.props.student.firstname,
+            lastname: this.props.student.lastname,
+            birthday: this.props.student.birthday,
+        
             tempStudent: {
                 index: null,
                 firstname: '',
@@ -34,11 +32,25 @@ class Student extends Component {
     }
 
     handleEditStudent = () => {
+        const { tempStudent, firstname, lastname, birthday } = this.state
         this.setState({ editStudentView: true })
+        tempStudent.firstname = firstname,
+        tempStudent.lastname = lastname,
+        tempStudent.birthday = birthday
+    }
+
+    handleEditCancel = () => {
+        const { tempStudent } = this.state
+        this.setState({
+            editStudentView: false,
+            firstname: tempStudent.firstname,
+            lastname: tempStudent.lastname,
+            birthday: tempStudent.birthday     
+        })
     }
 
   render() {
-      const { student } = this.state
+      const { index, firstname, lastname, birthday } = this.state
 
       const actions = [
         <FlatButton
@@ -57,11 +69,11 @@ class Student extends Component {
 
     if (!this.state.editStudentView) {
         return(
-            <tr className = 'dataRow' key = {student.index}>
-                <td>{student.index}</td>
-                <td>{student.firstname}</td>
-                <td>{student.lastname}</td>
-                <td>{student.birthday}</td>
+            <tr className = 'dataRow' key = {index}>
+                <td>{index}</td>
+                <td>{firstname}</td>
+                <td>{lastname}</td>
+                <td>{birthday}</td>
                 <td className = 'actionCell' >
                     <i class="far fa-chart-bar" 
                     title = 'Students grades'
@@ -89,30 +101,30 @@ class Student extends Component {
         )
     }else{
         return(
-            <tr className = 'dataRow activeRow' key = {student.index}>
-                <td>{student.index}</td>
+            <tr className = 'dataRow activeRow' key = {index}>
+                <td>{index}</td>
                 <td>
                     <input 
-                        value = {student.firstname}
+                        value = {firstname}
                         onChange = {e => this.setState({ firstname: e.target.value })}
                     />
                 </td>
                 <td>
                     <input 
-                        value = {student.lastname}
-                        onChange = {e => this.setState({ lastname: e.target.value })}
+                        value = {lastname}
+                        onChange = {e => this.setState({lastname: e.target.value })}
                     />
                 </td>
                 <td>
                     <input type = 'date'
-                        value = {student.birthday}
-                        onChange = {e => this.setState({ birthday: e.target.value })}
+                        value = {birthday}
+                        onChange = {e => this.setState( {birthday: e.target.value })}
                     />
                 </td>
                 <td className = 'actionCell' >
                     <i class="fas fa-check" 
                         title ='Save changes'
-                        onClick = {e => this.handlePutCourse()}></i>
+                        onClick = {e => this.handlePutStudent()}></i>
                     <i class="fas fa-times" 
                        title ='Cancel'
                        onClick = {e => this.handleEditCancel()}></i>
@@ -131,7 +143,6 @@ class Student extends Component {
             </tr>
         )
     }
-
   }
 }
 
