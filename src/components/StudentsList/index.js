@@ -27,6 +27,16 @@ class StudentsList extends Component {
     }
 
     componentWillReceiveProps(nextProps){
+        console.log(nextProps)
+        if(nextProps.addUserSuccess !== this.props.addUserSuccess){
+            this.setState({ addNewStudentComponentEnabled: false })
+            this.props.fetchCoursesAction()
+        }
+
+        if (nextProps.deleteSuccess !== this.props.deleteSuccess) {
+            this.props.fetchStudentsAction()
+        }
+
         if (nextProps.putSuccess !== this.props.putSuccess) {
             this.props.fetchStudentsAction()
         }
@@ -106,7 +116,9 @@ const mapStateToProps = ({ studentsReducer }) => {
     return {
         students: studentsReducer.students,
         isFetching: studentsReducer.isFetching,
-        putSuccess: studentsReducer.putSuccess
+        putSuccess: studentsReducer.putSuccess,
+        addUserSuccess: studentsReducer.addUserSuccess,
+        deleteSuccess: studentsReducer.deleteSuccess
     }
 }
 

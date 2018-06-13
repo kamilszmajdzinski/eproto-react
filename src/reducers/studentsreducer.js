@@ -17,7 +17,9 @@ const initialState = {
     isFetching: false,
     students: [],
     addUserPending: false,
+    addUserSuccess: false,
     deletePending: false,
+    deleteSuccess: false,
     putSuccess: false
 }
 
@@ -42,32 +44,38 @@ const studentsReducer = (state = initialState, action) => {
         case ADD_STUDENT_PENDING:
             return {
                 ...state,
-                addUserPending: true
+                addUserPending: true,
+                addUserSuccess: false
             }
         case ADD_STUDENT_SUCCESS:
             return{
                 ...state,
-                addUserPending: false
+                addUserPending: false,
+                addUserSuccess: true
             }
         case ADD_STUDENT_ERROR: 
             return{
                 ...state,
-                addUserPending: false
+                addUserPending: false,
+                addUserSuccess: false
             }
         case DEL_STUDENT_PENDING:
             return{
                 ...state,
-                deletePending: true
+                deletePending: true,
+                deleteSuccess: false
             }
         case DEL_STUDENT_SUCCESS:
             return {
                 ...state,
-                deletePending: false
+                deletePending: false,
+                deleteSuccess: true
             }
         case DEL_STUDENT_ERROR:
             return {
                 ...state,
-                deletePending: false
+                deletePending: false,
+                deleteSuccess: false
             }
         case PUT_STUDENT_PENDING:
             return{

@@ -62,7 +62,6 @@ export const removeStudentAction = (index) => {
                 if (res.status === 200) {
                     dispatch({ type: DEL_STUDENT_SUCCESS })
                     showNotification('The student was removed correctly')(dispatch)
-                    fetchCoursesAction()(dispatch)
                 }
             })
             .catch(err => {

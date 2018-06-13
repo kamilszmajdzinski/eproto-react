@@ -3,7 +3,7 @@ import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { putStudentAction } from "../../actions/studentsActions";
+import { putStudentAction, removeStudentAction } from "../../actions/studentsActions";
 import Notifications from '../Notifications'
 
 class Student extends Component {
@@ -38,6 +38,11 @@ class Student extends Component {
     }
 
     handleDialogClose = () => {
+        this.setState({ dialogOpen: false })
+    }
+
+    handleRemoveStudent = () => {
+        this.props.removeStudentAction(this.state.index)
         this.setState({ dialogOpen: false })
     }
 
@@ -175,7 +180,8 @@ const mapStateToProps = ({ studentsReducer }) => {
 
 const mapDispatchToProps = (dispatch) => {
     return bindActionCreators({
-        putStudentAction
+        putStudentAction,
+        removeStudentAction
     }, dispatch)
 }
 

@@ -105,7 +105,7 @@ class Course extends Component {
                     ></i>
                     <i class="fas fa-trash" 
                     title ='Delete course'
-                    onClick = {e => this.handleRemoveDialogOpen(course)}>
+                    onClick = {e => this.handleRemoveDialogOpen()}>
                     </i>
                 </td>
 
