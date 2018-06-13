@@ -10,7 +10,8 @@ import {
     DEL_STUDENT_ERROR,
     PUT_STUDENT_PENDING,
     PUT_STUDENT_SUCCESS,
-    PUT_STUDENT_ERROR} 
+    PUT_STUDENT_ERROR,
+    FETCH_STUDENTS_ID_SUCCESS} 
 from "../actions/studentsActions";
 
 const initialState = {
@@ -40,6 +41,11 @@ const studentsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isFetching: false,
+            }
+        case FETCH_STUDENTS_ID_SUCCESS:
+            return {
+                ...state,
+                student: action.student
             }
         case ADD_STUDENT_PENDING:
             return {

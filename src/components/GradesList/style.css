@@ -1,0 +1,7 @@
+.fa-arrow-left {
+    transition: 0.5s ease
+}
+
+.fa-arrow-left:hover {
+    color: #1db954;
+}
