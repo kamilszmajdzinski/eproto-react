@@ -12,9 +12,11 @@ import Notifications from '../Notifications'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 
+import Student from '../Student'
 
 
-class Students extends Component {
+
+class StudentsList extends Component {
 
     state = {
         addNewStudentComponentEnabled: false,
@@ -59,24 +61,6 @@ class Students extends Component {
         })
    }
 
-   renderStudent = (student) => {
-           return(
-            <tr className = 'dataRow' key = {student.index}>
-            <td>{student.index}</td>
-            <td>{student.firstname}</td>
-            <td>{student.lastname}</td>
-            <td>{student.birthday}</td>
-            <td className = 'actionCell' >
-                <i class="far fa-chart-bar" 
-                   title = 'Students grades'
-                   onClick></i>
-                <i class="fas fa-trash" 
-                   title ='Delete student'
-                   onClick = {e => this.handleRemoveDialogOpen(student)}></i>
-            </td>
-        </tr>
-        )
-   }
 
   render() {
     const { students, isFetching } = this.props
@@ -117,7 +101,7 @@ class Students extends Component {
             {this.state.addNewStudentComponentEnabled && <AddNewStudent />}
 
             {students ? (
-                students.map( student =>  this.renderStudent(student))
+                students.map( student =>  <Student student = {student} />)
             ):(
                 <p>Brak studentow</p>
             )}
@@ -178,4 +162,4 @@ const mapDispatchToProps = dispatch =>{
     }, dispatch)
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Students)
+export default connect(mapStateToProps, mapDispatchToProps)(StudentsList)
