@@ -1,6 +1,10 @@
 import React, { Component } from 'react'
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { putStudentAction } from "../../actions/studentsActions";
+import Notifications from '../Notifications'
 
 class Student extends Component {
 
@@ -10,7 +14,7 @@ class Student extends Component {
             dialogOpen: false,
             editStudentView: false,
             index: this.props.student.index,
-            firstName: this.props.student.firstname,
+            firstname: this.props.student.firstname,
             lastname: this.props.student.lastname,
             birthday: this.props.student.birthday,
         
@@ -20,6 +24,12 @@ class Student extends Component {
                 lastname: '',
                 birthday: ''
             }
+        }
+    }
+
+    componentWillReceiveProps(nextProps){
+        if (nextProps.putSuccess !== this.props.putSuccess) {
+            this.setState({ editStudentView: false })
         }
     }
 
@@ -47,6 +57,16 @@ class Student extends Component {
             lastname: tempStudent.lastname,
             birthday: tempStudent.birthday     
         })
+    }
+
+    handlePutStudent = () => {
+        const { index, firstname, lastname, birthday } = this.state
+        const body = {
+            firstname,
+            lastname,
+            birthday
+        }
+        this.props.putStudentAction(index, body)
     }
 
   render() {
@@ -97,6 +117,7 @@ class Student extends Component {
                     >
                     Do you really want to delete {this.state.firstname} {this.state.lastname} ?
                 </Dialog>
+                <Notifications />
             </tr>
         )
     }else{
@@ -146,4 +167,16 @@ class Student extends Component {
   }
 }
 
-export default Student
+const mapStateToProps = ({ studentsReducer }) => {
+    return {
+        putSuccess: studentsReducer.putSuccess
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return bindActionCreators({
+        putStudentAction
+    }, dispatch)
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Student)

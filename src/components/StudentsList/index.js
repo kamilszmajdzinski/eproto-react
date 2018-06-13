@@ -25,6 +25,12 @@ class StudentsList extends Component {
     componentDidMount = () => {
       this.props.fetchStudentsAction()
     }
+
+    componentWillReceiveProps(nextProps){
+        if (nextProps.putSuccess !== this.props.putSuccess) {
+            this.props.fetchStudentsAction()
+        }
+    }
    
     componentWillReceiveProps = () => {
         this.setState({
@@ -33,27 +39,12 @@ class StudentsList extends Component {
     }
 
    handleAddNewStudent = () => {
-       this.setState({
-           addNewStudentComponentEnabled: true
-       })
+       this.setState({ addNewStudentComponentEnabled: true })
    }
    
   
-
-   handleRemoveStudent = () => {
-       this.props.removeStudentAction(this.state.deletingStudent.index)
-       this.setState({
-           dialogOpen: false
-       })
-       this.props.fetchStudentsAction()
-   }
-
-
-
-
   render() {
     const { students, isFetching } = this.props
-
 
     return (
       <div className = 'dataContainer'>
@@ -114,14 +105,14 @@ const spinnerStyle = {
 const mapStateToProps = ({ studentsReducer }) => {
     return {
         students: studentsReducer.students,
-        isFetching: studentsReducer.isFetching
+        isFetching: studentsReducer.isFetching,
+        putSuccess: studentsReducer.putSuccess
     }
 }
 
 const mapDispatchToProps = dispatch =>{
     return bindActionCreators ({
         fetchStudentsAction,
-        removeStudentAction
     }, dispatch)
 }
 

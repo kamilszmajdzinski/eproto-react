@@ -7,14 +7,18 @@ import {
     ADD_STUDENT_ERROR, 
     DEL_STUDENT_PENDING,
     DEL_STUDENT_SUCCESS,
-    DEL_STUDENT_ERROR} 
+    DEL_STUDENT_ERROR,
+    PUT_STUDENT_PENDING,
+    PUT_STUDENT_SUCCESS,
+    PUT_STUDENT_ERROR} 
 from "../actions/studentsActions";
 
 const initialState = {
     isFetching: false,
     students: [],
     addUserPending: false,
-    deletePending: false
+    deletePending: false,
+    putSuccess: false
 }
 
 const studentsReducer = (state = initialState, action) => {
@@ -64,6 +68,21 @@ const studentsReducer = (state = initialState, action) => {
             return {
                 ...state,
                 deletePending: false
+            }
+        case PUT_STUDENT_PENDING:
+            return{
+                ...state,
+                putSuccess: false
+            }
+        case PUT_STUDENT_SUCCESS:
+            return{
+                ...state,
+                putSuccess: true
+            }
+        case PUT_STUDENT_ERROR:
+            return{
+                ...state,
+                putSuccess: false
             }
         default:
             return state;
