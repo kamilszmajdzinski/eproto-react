@@ -4,6 +4,9 @@ import { bindActionCreators } from "redux"
 import { fetchStudentByIdAction } from "../../actions/studentsActions";
 import { changeView } from "../../actions/viewActions";
 import './style.css'
+import Notifications from '../Notifications'
+import FloatingActionButton from 'material-ui/FloatingActionButton';
+import ContentAdd from 'material-ui/svg-icons/content/add';
 
 class GradesList extends Component {
 
@@ -31,9 +34,35 @@ class GradesList extends Component {
             {student && student.firstname}<span> </span>
             {student && student.lastname}<span> </span> 
             {student && `(${student.index})`}</p>
+        
+            <table className = 'dataTable'>
+                <thead>
+                    <tr>
+                        <th>Grade</th>
+                        <th>Course</th>
+                        <th>Date</th>
+                        <th>actions</th>
+                    </tr>
+                </thead>
+            </table>
+
+        <FloatingActionButton 
+            style = {buttonStyle} 
+            backgroundColor = '#1db954'
+            onClick = {this.handleAddNewStudent}
+            title = "Add new student">
+            <ContentAdd />
+        </FloatingActionButton>
+        <Notifications />
       </div>
     )
   }
+}
+
+const buttonStyle = {
+    position: 'fixed',
+    bottom: '90px',
+    right: '60px'
 }
 
 const mapStateToProps = ({ studentsReducer, viewReducer }) => {
